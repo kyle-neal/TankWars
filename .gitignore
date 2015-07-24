@@ -37,3 +37,4 @@ Icon
 src/Driver.class
 src/*/*.class
 src/*/*/*.class
+src/TankWars.jar
