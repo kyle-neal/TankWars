@@ -10,6 +10,12 @@ A two player tank game written in Java. My finest game in the Java language!
 
 `make run`
 
+##RUNNING (New build)
+
+
+`make clean-run`
+
+
 ##PLAYING
 This is a turn by turn game
 * Choose muzzle velocity (controls speed of projectile)
