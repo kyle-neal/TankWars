@@ -49,7 +49,6 @@ public class PlayFrame extends JFrame
 		
 		
 		this.setTitle("TANK WARS");
-		this.setSize(d);
 		this.setLocationRelativeTo(null);
 		this.setResizable(false);
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -68,6 +67,8 @@ public class PlayFrame extends JFrame
 
 		//*****************************************
 		
+		this.pack();
+		this.setLocationRelativeTo(null);
 		this.setVisible(true);
 	}
 	//*****************************************

@@ -49,8 +49,10 @@ public class PlayDrawArea extends JPanel
 		this.d = d;
 		this.setPreferredSize(this.d);
 		this.setBackground(Color.CYAN);
-		this.tank1 = new tank(1, 0, d.height - 50);
-		this.tank2 = new tank(2, d.width - 40, d.height - 50);
+		// Tank pixels span x:0-26, y:2-16 from origin
+		// 10px bottom margin, 10px ground, tanks sit on ground
+		this.tank1 = new tank(1, 10, d.height - 37);
+		this.tank2 = new tank(2, d.width - 37, d.height - 37);
 	}
 	
 	public void paint()
@@ -58,6 +60,10 @@ public class PlayDrawArea extends JPanel
 		Graphics g = getGraphics();
 		
 		super.paintComponent(g);
+
+		//Draw ground
+		g.setColor(new Color(34, 139, 34));
+		g.fillRect(0, d.height - 20, d.width, 10);
 
 		//Draw Tank 1
 		for(Pixel p : tank1.getTankPixels())
@@ -77,6 +83,10 @@ public class PlayDrawArea extends JPanel
 	public void paint(Graphics g)
 	{	
 		super.paintComponent(g);
+
+		//Draw ground
+		g.setColor(new Color(34, 139, 34));
+		g.fillRect(0, d.height - 20, d.width, 10);
 		
 		//Draw Tank 1
 		for(Pixel p : tank1.getTankPixels())
