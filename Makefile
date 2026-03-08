@@ -1,4 +1,9 @@
-gradle-build:
+JAVA_HOME ?= /usr/lib/jvm/java-17-openjdk-amd64
+export JAVA_HOME
+
+.PHONY: build run clean-run
+
+build:
 	gradle build
 
 run:

@@ -1,32 +1,36 @@
 # TankWars
-A two player tank game written in Java. My finest game in the Java language!
+A two player tank game written in Java! 😎
 
-**Important**
+## REQUIREMENTS
 
-Gradle needs to be 2.X+, to upgrade:
+- **Java**: OpenJDK 17+
+- **Gradle**: 4.4+
+- **OS**: Linux (Ubuntu/Debian)
+
+## QUICK START
+
+Run the setup script to install all dependencies, build, and optionally launch the game:
 
 ```
-sudo add-apt-repository ppa:cwchien/gradle
-sudo apt-get update
-sudo apt-get install gradle-ppa
+./setup.sh
 ```
 
-##BUILDING
+## BUILDING
 
 `make build`
 
-##RUNNING
+## RUNNING
 
 
 `make run`
 
-##RUNNING (New build)
+## RUNNING (New build)
 
 
 `make clean-run`
 
 
-##PLAYING
+## PLAYING
 This is a turn by turn game
 * Choose muzzle velocity (controls speed of projectile)
 * Choose Quadrant Elevation (determines angle of the shot)
