@@ -20,6 +20,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.BasicStroke;
+import java.awt.RenderingHints;
 import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
@@ -49,8 +52,10 @@ public class PlayDrawArea extends JPanel
 		this.d = d;
 		this.setPreferredSize(this.d);
 		this.setBackground(Color.CYAN);
-		this.tank1 = new tank(1, 0, d.height - 50);
-		this.tank2 = new tank(2, d.width - 40, d.height - 50);
+		// Tank pixels span x:0-26, y:2-16 from origin
+		// 10px bottom margin, 10px ground, tanks sit on ground
+		this.tank1 = new tank(1, 10, d.height - 37);
+		this.tank2 = new tank(2, d.width - 37, d.height - 37);
 	}
 	
 	public void paint()
@@ -58,6 +63,10 @@ public class PlayDrawArea extends JPanel
 		Graphics g = getGraphics();
 		
 		super.paintComponent(g);
+
+		//Draw ground
+		g.setColor(new Color(34, 139, 34));
+		g.fillRect(0, d.height - 20, d.width, 10);
 
 		//Draw Tank 1
 		for(Pixel p : tank1.getTankPixels())
@@ -77,6 +86,10 @@ public class PlayDrawArea extends JPanel
 	public void paint(Graphics g)
 	{	
 		super.paintComponent(g);
+
+		//Draw ground
+		g.setColor(new Color(34, 139, 34));
+		g.fillRect(0, d.height - 20, d.width, 10);
 		
 		//Draw Tank 1
 		for(Pixel p : tank1.getTankPixels())
@@ -204,6 +217,8 @@ public class PlayDrawArea extends JPanel
 
 	private void closeGame(int winner)
 	{
+		playWinnerAnimation(winner);
+
 		if(winner == 1)
 		{
 			JOptionPane.showMessageDialog(null,
@@ -237,6 +252,54 @@ public class PlayDrawArea extends JPanel
 		}
 	}
 	
+	private void playWinnerAnimation(int winner)
+	{
+		Graphics2D g2 = (Graphics2D) getGraphics();
+		g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+
+		String winText = "PLAYER " + winner + " WINS!";
+		Font winFont = new Font("monospaced", Font.BOLD, 36);
+		Color[] colors = { Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.MAGENTA };
+
+		int cx = d.width / 2;
+		int cy = d.height / 2;
+
+		// Expanding rings + flashing text
+		for(int frame = 0; frame < 60; frame++)
+		{
+			paint(g2);
+
+			// Draw expanding colored rings
+			for(int ring = 0; ring <= frame; ring += 4)
+			{
+				int radius = (frame - ring) * 8;
+				if(radius > 0 && radius < Math.max(d.width, d.height))
+				{
+					Color c = colors[(ring / 4) % colors.length];
+					g2.setColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), 
+							Math.max(0, 200 - radius)));
+					g2.setStroke(new BasicStroke(3));
+					g2.drawOval(cx - radius, cy - radius, radius * 2, radius * 2);
+				}
+			}
+
+			// Draw winner text with shadow
+			g2.setFont(winFont);
+			int textWidth = g2.getFontMetrics().stringWidth(winText);
+			int tx = (d.width - textWidth) / 2;
+			int ty = cy - 10;
+
+			g2.setColor(Color.BLACK);
+			g2.drawString(winText, tx + 2, ty + 2);
+
+			Color textColor = colors[frame % colors.length];
+			g2.setColor(textColor);
+			g2.drawString(winText, tx, ty);
+
+			try { Thread.sleep(50); } catch (InterruptedException e) { break; }
+		}
+	}
+
 	private void resetGame()
 	{
 		//Tasks
